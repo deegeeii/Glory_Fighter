@@ -1,0 +1,28 @@
+# === Secret Shit - never commit these ===
+
+.env
+*.key
+*.pem
+
+
+# === Python Cache - generated automatically, not needed ===
+
+__pycache__/
+*.pyc 
+*.pyo 
+*.pyd 
+
+# === Save Files - personal game data ===
+
+data/saves
+
+# === Virtual environment - too large to commit ===
+
+venv/
+.venv/
+env/
+
+# === Os clutter ===
+.DS_Store
+Thumbs.db
+desktop.ini

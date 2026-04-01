@@ -1,0 +1,3 @@
+python-dotenv  #reads .env files safely
+colorama        # terminal colors for ASCII visuals
+
