@@ -126,6 +126,55 @@ class GameEngine:
         except ValueError:
             print("  Invalid input.")
 
+    def free_placement(self, player, grant_resources: bool = False):
+        # Prompt the player to place one free settlement
+        # Keep prompting until til is chosen
+
+        self.board.show_board()
+        while True:
+            try:
+                tid = int(input(
+                    f"  {player.name} - choose a tile to settle (0-18)"
+                ).strip())
+                success = self.board.place_free_settlement(
+                    player, tid, grant_resources=grant_resources
+                )
+                if success:
+                    break
+            except ValueError:
+                print("  Please enter a tile number.")
+
+    def setup_phase(self):
+        """Run the pre-game setup — two free placements per player.
+
+        Round 1: every player places one settlement, no resources.
+        Round 2: every player places a second settlement and
+                 immediately receives 1 resource from that tile.
+
+        This guarantees every player has income tiles and
+        starting resources before the first real turn.
+        """
+        print("\n  === SETUP PHASE ===")
+        print("  Each player places 2 free settlements.")
+        print("  Your second placement grants 1 starting resource.\n")
+
+        player_list = list(self.players.values())
+
+        # Round 1 — forward order, no resources granted
+        print("  -- Round 1: first placement --")
+        for player in player_list:
+            self.free_placement(player, grant_resources=False)
+
+        # Round 2 — reverse order (classic Catan snake draft)
+        # and grant 1 resource from the chosen tile
+        print("\n  -- Round 2: second placement (grants resources) --")
+        for player in reversed(player_list):
+            self.free_placement(player, grant_resources=True)
+
+        print("\n  Setup complete. Good luck!\n")
+        show_scoreboard(self.players)
+
+
     # ── Main turn ────────────────────────────────────
 
     def run_turn(self, player):

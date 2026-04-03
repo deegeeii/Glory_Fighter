@@ -127,4 +127,5 @@ if __name__ == "__main__":
     authenticate()
     players = setup_all_players()
     engine  = GameEngine(players)
+    engine.setup_phase()    
     engine.run()

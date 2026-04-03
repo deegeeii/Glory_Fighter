@@ -133,6 +133,32 @@ class Board:
             f"+1 Glory. Total: {player.glory}"
         )
 
+    def place_free_settlement(self, player, tile_id: int, grant_resources: bool = False):
+        # Place a settlement with no resource cost.
+
+        if tile_id < 0 or tile_id >= len(self.tiles):
+            print(f"  Tile {tile_id} doesn't exist. Choose 0-18.")
+            return False
+        
+        tile = self.tiles[tile_id]
+
+        if tile.resource == "desert":
+            print(" Can't settle the desert, no resources there.")
+            return False
+        
+        tile.owners.append(player.player_id)
+        player.glory += 1
+        print(
+            f"  {player.name} places free settlement on tile {tile_id}"
+            f"({self.ICONS[tile.resource]} #{tile.number}). +1 GLory"
+        )
+
+        if grant_resources:
+            player.gain_resource(tile.resource)
+            print(f"  Starting resource granted: 1 {tile.resource}")
+
+        return True
+
 #--- Display ----
 
     def show_board(self):
